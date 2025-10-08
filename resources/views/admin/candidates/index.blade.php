@@ -17,25 +17,28 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($candidates as $candidate)
-            <tr class="text-center">
-                <td class="py-2 px-4 border-b"><img src="{{ Storage::url($candidate->photo) }}" alt="{{ $candidate->name }}" class="h-16 w-16 object-cover rounded-full mx-auto"></td>
-                <td class="py-2 px-4 border-b">{{ $candidate->name }}</td>
-                <td class="py-2 px-4 border-b">
-                    <a href="{{ route('admin.candidates.edit', $candidate) }}" class="bg-yellow-500 text-white px-3 py-1 rounded">Edit</a>
-                    <form action="{{ route('admin.candidates.destroy', $candidate) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="3" class="text-center py-4">Belum ada data kandidat.</td>
-            </tr>
-            @endforelse
-        </tbody>
+    @forelse($candidates as $candidate)
+    <tr class="text-center">
+        <td class="py-2 px-4 border-b">
+            {{-- PASTIKAN BARIS INI MENGGUNAKAN Storage::url() --}}
+            <img src="{{ Storage::url($candidate->photo) }}" alt="{{ $candidate->name }}" class="h-16 w-16 object-cover rounded-full mx-auto">
+        </td>
+        <td class="py-2 px-4 border-b">{{ $candidate->name }}</td>
+        <td class="py-2 px-4 border-b">
+            <a href="{{ route('admin.candidates.edit', $candidate) }}" class="bg-yellow-500 text-white px-3 py-1 rounded">Edit</a>
+            <form action="{{ route('admin.candidates.destroy', $candidate) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
+            </form>
+        </td>
+    </tr>
+    @empty
+    <tr>
+        <td colspan="3" class="text-center py-4">Belum ada data kandidat.</td>
+    </tr>
+    @endforelse
+</tbody>
     </table>
 </div>
 @endsection

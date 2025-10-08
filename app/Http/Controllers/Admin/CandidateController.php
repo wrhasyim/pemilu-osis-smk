@@ -21,24 +21,24 @@ class CandidateController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'vision' => 'required|string',
-            'mission' => 'required|string',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $validated = $request->validate([
+        'name'    => 'required|string|max:255',
+        'vision'  => 'required|string',
+        'mission' => 'required|string',
+        'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Handle file upload
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('public/photos');
-            $validated['photo'] = $path;
-        }
-
-        Candidate::create($validated);
-
-        return redirect()->route('admin.candidates.index')->with('success', 'Kandidat berhasil ditambahkan.');
+    if ($request->hasFile('photo')) {
+        // Baris ini akan menyimpan ke storage/app/public/photos
+        $path = $request->file('photo')->store('public/photos');
+        $validated['photo'] = $path;
     }
+
+    Candidate::create($validated);
+
+    return redirect()->route('admin.candidates.index')->with('success', 'Kandidat berhasil ditambahkan.');
+}
 
     public function show(Candidate $candidate)
     {
