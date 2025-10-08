@@ -27,7 +27,7 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 
     // Rute untuk CRUD Kandidat
     Route::resource('candidates', CandidateController::class);
-
+Route::get('students/import/sample', [StudentImportController::class, 'downloadSample'])->name('students.import.sample');
     // Rute untuk impor siswa
     Route::get('students/import', [StudentImportController::class, 'show'])->name('students.import.show');
     Route::post('students/import', [StudentImportController::class, 'store'])->name('students.import.store');
