@@ -20,21 +20,33 @@ class CandidateController extends Controller
         return view('admin.candidates.create');
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
 {
+    // Debug #1: Cek apakah ada file yang dikirim
+    if (!$request->hasFile('photo')) {
+        dd('Error: Tidak ada file foto yang terkirim dari form.');
+    }
+
+    // Debug #2: Cek apakah file tersebut valid (bisa dikenali sebagai file)
+    if (!$request->file('photo')->isValid()) {
+        dd('Error: File foto yang dikirim tidak valid atau rusak saat proses upload.');
+    }
+
+    // dd($request->all()); // Hentikan di sini untuk melihat semua data request
+
+    // Validasi input dari form
     $validated = $request->validate([
         'name'    => 'required|string|max:255',
         'vision'  => 'required|string',
         'mission' => 'required|string',
-        'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Wajib gambar, maks 2MB
     ]);
 
-    if ($request->hasFile('photo')) {
-        // Baris ini akan menyimpan ke storage/app/public/photos
-        $path = $request->file('photo')->store('public/photos');
-        $validated['photo'] = $path;
-    }
-
+    // Proses upload dan simpan file foto
+    // Kita tidak akan menjalankan ini dulu untuk memastikan validasi lolos
+    $path = $request->file('photo')->store('public/photos');
+    $validated['photo'] = $path;
+    
     Candidate::create($validated);
 
     return redirect()->route('admin.candidates.index')->with('success', 'Kandidat berhasil ditambahkan.');
