@@ -16,13 +16,14 @@ class StudentsImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
-        // Kode ini akan membaca setiap baris dari file Excel
-        // dan membuat user baru
-        return new User([
-            'name'     => $row['nama'],
-            'username' => $row['nis'],
-            'password' => Hash::make('12345678'), // Password default untuk semua siswa
-            'role'     => 'voter',
-        ]);
+         $password = !empty($row['password']) ? $row['password'] : '12345678';
+
+    return new User([
+        'name'     => $row['nama'],
+        'username' => $row['nis'],
+        'class'    => $row['kelas'], // <-- Tambahkan ini
+        'password' => Hash::make($password), // Gunakan variabel password
+        'role'     => 'voter',
+    ]);
     }
 }

@@ -14,13 +14,15 @@
                 </div>
 
                 <div class="flex items-center space-x-6">
-                    <a href="{{ route('admin.candidates.index') }}" class="text-gray-600 hover:text-gray-900 font-medium">Manajemen Kandidat</a>
-                    <a href="{{ route('admin.students.import.show') }}" class="text-gray-600 hover:text-gray-900 font-medium">Impor Siswa</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="text-red-500 hover:text-red-700 font-medium">Logout</button>
-                    </form>
-                </div>
+    <a href="{{ route('admin.dashboard') }}" class="text-gray-600 hover:text-gray-900 font-medium">Dashboard</a>
+    <a href="{{ route('admin.students.index') }}" class="text-gray-600 hover:text-gray-900 font-medium">Data Pemilih</a> {{-- <-- Tambahkan ini --}}
+    <a href="{{ route('admin.candidates.index') }}" class="text-gray-600 hover:text-gray-900 font-medium">Manajemen Kandidat</a>
+    <a href="{{ route('admin.students.import.show') }}" class="text-gray-600 hover:text-gray-900 font-medium">Impor Siswa</a>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="text-red-500 hover:text-red-700 font-medium">Logout</button>
+    </form>
+</div>
                 </div>
         </div>
     </nav>

@@ -16,14 +16,15 @@ class SampleExport implements FromArray, WithHeadings
     {
         // Data contoh di dalam file
         return [
-            ['Nama Siswa Contoh', '20250001'],
+            // Kolom password diisi untuk contoh, tapi bisa dikosongkan
+           ['Nama Siswa Contoh', '20250001', 'XII RPL 1', 'passwordcustom'],
         ];
     }
 
     public function headings(): array
     {
-        // Header kolom yang akan digunakan
-        return ['nama', 'nis'];
+        // Tambahkan 'password' sebagai header kolom baru
+        return ['nama', 'nis', 'kelas', 'password'];
     }
 }
 

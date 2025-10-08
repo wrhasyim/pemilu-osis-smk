@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\StudentImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\StudentViewController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -24,7 +25,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
     // Rute baru untuk dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-
+Route::get('/students', [StudentViewController::class, 'index'])->name('students.index');
     // Rute untuk CRUD Kandidat
     Route::resource('candidates', CandidateController::class);
 Route::get('students/import/sample', [StudentImportController::class, 'downloadSample'])->name('students.import.sample');
