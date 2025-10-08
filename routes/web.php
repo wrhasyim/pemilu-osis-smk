@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController; // <-- Tambahkan ini
 use App\Http\Controllers\Admin\CandidateController;
+use App\Http\Controllers\Admin\StudentImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +22,15 @@ Route::middleware('auth')->group(function () {
 
 // Grup khusus untuk ADMIN
 Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
-    // Rute dashboard admin bisa ditambahkan di sini jika perlu
-    // Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    
+    // Rute baru untuk dashboard admin
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
     // Rute untuk CRUD Kandidat
     Route::resource('candidates', CandidateController::class);
+
+    // Rute untuk impor siswa
+    Route::get('students/import', [StudentImportController::class, 'show'])->name('students.import.show');
+    Route::post('students/import', [StudentImportController::class, 'store'])->name('students.import.store');
 });
 
 // Grup khusus untuk PEMILIH (VOTER)
