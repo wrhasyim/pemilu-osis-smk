@@ -39,7 +39,7 @@ class CandidateController extends Controller
         'name'    => 'required|string|max:255',
         'vision'  => 'required|string',
         'mission' => 'required|string',
-        'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Wajib gambar, maks 2MB
+        'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:10240', // Wajib gambar, maks 2MB
     ]);
 
     // Proses upload dan simpan file foto
@@ -69,7 +69,7 @@ class CandidateController extends Controller
             'name' => 'required|string|max:255',
             'vision' => 'required|string',
             'mission' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
         ]);
 
         if ($request->hasFile('photo')) {
