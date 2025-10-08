@@ -44,7 +44,8 @@ class CandidateController extends Controller
 
     // Proses upload dan simpan file foto
     // Kita tidak akan menjalankan ini dulu untuk memastikan validasi lolos
-    $path = $request->file('photo')->store('public/photos');
+    // Pindahkan file langsung ke public/photos dan simpan path relatifnya
+$path = $request->file('photo')->store('', 'public_direct');
     $validated['photo'] = $path;
     
     Candidate::create($validated);

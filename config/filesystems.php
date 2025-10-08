@@ -47,6 +47,14 @@ return [
             'report' => false,
         ],
 
+        // TAMBAHKAN BLOK DI BAWAH INI
+'public_direct' => [
+    'driver' => 'local',
+    'root' => public_path('photos'),
+    'url' => env('APP_URL').'/photos',
+    'visibility' => 'public',
+],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
