@@ -13,32 +13,28 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        // 1. Menghitung total kandidat
-        $totalCandidates = Candidate::count();
-
-        // 2. Menghitung total pemilih (siswa)
+        // Menghitung total pemilih (siswa)
         $totalVoters = User::where('role', 'voter')->count();
 
-        // 3. Menghitung jumlah pemilih yang sudah voting
-        $votersWhoVoted = User::where('role', 'voter')->where('has_voted', true)->count();
+        // Menghitung jumlah suara yang sudah masuk
+        $votesCasted = Vote::count();
 
-        // 4. Menghitung persentase partisipasi (turnout)
-        $voterTurnout = ($totalVoters > 0) ? ($votersWhoVoted / $totalVoters) * 100 : 0;
+        // Menghitung persentase partisipasi, hindari pembagian dengan nol
+        $turnoutPercentage = $totalVoters > 0 ? round(($votesCasted / $totalVoters) * 100, 2) : 0;
 
-        // 5. Menghitung perolehan suara untuk setiap kandidat
-        $voteCounts = Vote::select('candidate_id', DB::raw('count(*) as votes'))
-            ->groupBy('candidate_id')
-            ->orderBy('votes', 'desc')
-            ->with('candidate') // Eager load data kandidat
-            ->get();
+        // Mengambil data kandidat beserta total suara mereka
+        $candidates = Candidate::withCount('votes')->orderBy('name')->get();
 
-        // Kirim semua data ke view
+        // Menyiapkan data untuk grafik
+        $chartLabels = $candidates->pluck('name');
+        $chartData = $candidates->pluck('votes_count');
+
         return view('admin.dashboard', compact(
-            'totalCandidates',
             'totalVoters',
-            'votersWhoVoted',
-            'voterTurnout',
-            'voteCounts'
+            'votesCasted',
+            'turnoutPercentage',
+            'chartLabels',
+            'chartData'
         ));
     }
 }

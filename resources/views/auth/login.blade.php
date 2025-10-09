@@ -1,51 +1,72 @@
-<x-guest-layout>
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-g">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- AWAL: Blok untuk Logo Sekolah & Judul --}}
-    <div class="flex flex-col items-center mb-6">
-        <a href="/">
-            {{-- Letakkan logo Anda di folder public/images/logo-sekolah.png --}}
-            <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="w-28 h-28 object-contain">
-        </a>
-        
-        <h2 class="mt-4 text-2xl font-bold text-center text-gray-800">
-            Login E-Voting
-        </h2>
-        <p class="text-gray-600 text-center">
-            Pemilu Raya OSIS SMK Taruna Karya Mandiri
-        </p>
-    </div>
-    {{-- AKHIR: Blok untuk Logo Sekolah & Judul --}}
+        <title>{{ config('app.name', 'Laravel') }} - Login</title>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <div>
-            <x-input-label for="username" :value="__('Username (NIS)')" />
-            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans text-gray-900 antialiased">
+        <div class="min-h-screen bg-gray-100 text-gray-800 flex justify-center items-center">
+            {{-- KITA HILANGKAN PEMBATAS LEBAR AGAR MENJADI FULL-SCREEN --}}
+            <div class="w-full h-screen"> 
+                <div class="bg-white shadow-2xl h-full grid md:grid-cols-2 overflow-hidden">
+
+                    {{-- Kolom Kiri: Branding & Informasi --}}
+                    <div class="p-8 md:p-12 bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex flex-col justify-center items-center text-center">
+                        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="w-28 h-28 mb-6">
+                        <h1 class="text-3xl font-bold mb-3">E-Voting Pemilu OSIS</h1>
+                        <p class="text-indigo-200">SMK TARUNA KARYA MANDIRI</p>
+                        <hr class="w-1/3 my-6 border-indigo-400">
+                        <p class="text-indigo-200">Gunakan hak pilih Anda untuk masa depan OSIS yang lebih baik.</p>
+                    </div>
+
+                    {{-- Kolom Kanan: Form Login --}}
+                    <div class="p-8 md:p-12 flex flex-col justify-center">
+                        <div class="w-full max-w-md mx-auto">
+                            <div class="text-left mb-8">
+                                <h2 class="text-2xl font-bold text-gray-800">Masuk Akun</h2>
+                                <p class="text-gray-600">Silakan gunakan NISN dan password Anda.</p>
+                            </div>
+
+                            <x-auth-session-status class="mb-4" :status="session('status')" />
+
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf
+
+                                <div>
+                                    <x-input-label for="nisn" :value="__('NISN')" class="font-semibold" />
+                                    <x-text-input id="nisn" class="block mt-1 w-full" type="text" name="nisn" :value="old('nisn')" required autofocus autocomplete="username" placeholder="Masukkan NISN Anda" />
+                                    <x-input-error :messages="$errors->get('nisn')" class="mt-2" />
+                                </div>
+
+                                <div class="mt-4">
+                                    <x-input-label for="password" :value="__('Password')" class="font-semibold" />
+                                    <x-text-input id="password" class="block mt-1 w-full"
+                                                    type="password"
+                                                    name="password"
+                                                    required autocomplete="current-password"
+                                                    placeholder="********" />
+                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                                </div>
+
+                                <div class="flex items-center justify-end mt-6">
+                                    <x-primary-button class="w-full text-center justify-center py-3 text-base">
+                                        {{ __('MASUK') }}
+                                    </x-primary-button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </body>
+</html>

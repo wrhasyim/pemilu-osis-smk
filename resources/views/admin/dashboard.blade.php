@@ -1,52 +1,87 @@
 @extends('layouts.admin')
 
 @section('content')
-<div>
-    <h2 class="text-2xl font-semibold mb-6">Dashboard Pemilu OSIS</h2>
+    {{-- Meta tag untuk refresh halaman setiap 30 detik --}}
+    <meta http-equiv="refresh" content="30">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-gray-500 text-sm font-medium">Total Kandidat</h3>
-            <p class="text-3xl font-bold mt-2">{{ $totalCandidates }}</p>
+    <div class="p-6">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Dashboard Pemilu Real-time</h2>
+
+        {{-- Grid untuk menampilkan statistik --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-gray-500 text-sm font-semibold uppercase">Total Pemilih</h3>
+                <p class="text-3xl font-bold text-gray-800">{{ $totalVoters }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-gray-500 text-sm font-semibold uppercase">Suara Masuk</h3>
+                <p class="text-3xl font-bold text-gray-800">{{ $votesCasted }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-gray-500 text-sm font-semibold uppercase">Partisipasi</h3>
+                <p class="text-3xl font-bold text-gray-800">{{ $turnoutPercentage }}%</p>
+            </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-gray-500 text-sm font-medium">Total Pemilih</h3>
-            <p class="text-3xl font-bold mt-2">{{ $totalVoters }}</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-gray-500 text-sm font-medium">Suara Masuk</h3>
-            <p class="text-3xl font-bold mt-2">{{ $votersWhoVoted }}</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h3 class="text-gray-500 text-sm font-medium">Partisipasi Pemilih</h3>
-            <p class="text-3xl font-bold mt-2">{{ number_format($voterTurnout, 2) }}%</p>
-        </div>
-    </div>
-
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-4">Perolehan Suara Real-time</h3>
-        <div class="space-y-4">
-            @forelse ($voteCounts as $result)
-                <div class="flex items-center">
-                    <img src="{{ Storage::url($result->candidate->photo) }}" alt="{{ $result->candidate->name }}" class="w-12 h-12 rounded-full object-cover">
-                    <div class="ml-4 flex-grow">
-                        <p class="font-bold">{{ $result->candidate->name }}</p>
-                        <div class="w-full bg-gray-200 rounded-full h-4 mt-1">
-                            @php
-                                $percentage = ($totalVoters > 0) ? ($result->votes / $votersWhoVoted) * 100 : 0;
-                            @endphp
-                            <div class="bg-blue-500 h-4 rounded-full" style="width: {{ $percentage }}%"></div>
-                        </div>
-                    </div>
-                    <p class="ml-4 text-lg font-bold">{{ $result->votes }} Suara</p>
-                </div>
-            @empty
-                <p class="text-gray-500">Belum ada suara yang masuk.</p>
-            @endforelse
+        {{-- Wadah untuk grafik --}}
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Grafik Perolehan Suara</h3>
+            <div style="height: 400px;">
+                <canvas id="voteChart"></canvas>
+            </div>
         </div>
     </div>
-</div>
+
+    {{-- Memanggil library Chart.js dari CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{-- Skrip untuk membuat grafik --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('voteChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @json($chartLabels),
+                    datasets: [{
+                        label: 'Jumlah Suara',
+                        data: @json($chartData),
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(153, 102, 255, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1 // Agar skala y menjadi 1, 2, 3, dst.
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // Menyembunyikan legenda
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection
