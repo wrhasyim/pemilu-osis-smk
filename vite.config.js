@@ -8,4 +8,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '0.0.0.0', // <-- TAMBAHKAN BARIS INI
+        hmr: {
+            host: 'localhost' // Ini penting agar HMR tetap berjalan
+        }
+    }
 });
