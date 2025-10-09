@@ -1,19 +1,37 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Terima Kasih') }}
-        </h2>
-    </x-slot>
+<x-guest-layout>
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg text-center">
+            <h2 class="text-2xl font-bold mb-4">Terima Kasih!</h2>
+            <p class="mb-6">Suara Anda telah berhasil direkam. Partisipasi Anda sangat berarti untuk masa depan OSIS.</p>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-10 text-gray-900 text-center">
-                    <h3 class="text-3xl font-bold text-green-600 mb-4">Terima Kasih!</h3>
-                    <p class="text-lg">Anda telah berhasil menggunakan hak suara Anda.</p>
-                    <p class="mt-2 text-gray-600">Partisipasi Anda sangat berarti untuk kemajuan sekolah.</p>
-                </div>
-            </div>
+            {{-- Pesan hitung mundur --}}
+            <p class="text-sm text-gray-600">
+                Anda akan diarahkan kembali ke halaman login dalam 
+                <span id="countdown" class="font-bold">5</span> detik...
+            </p>
         </div>
     </div>
-</x-app-layout>
+
+    {{-- Skrip untuk pengalihan otomatis --}}
+    <script>
+        (function() {
+            // Waktu dalam detik sebelum redirect
+            let seconds = 5; 
+
+            const countdownElement = document.getElementById('countdown');
+
+            // Atur timer untuk redirect setelah 'seconds' detik
+            setTimeout(function() {
+                window.location.href = "{{ route('login') }}";
+            }, seconds * 1000);
+
+            // Atur interval untuk memperbarui tampilan hitung mundur setiap detik
+            setInterval(function() {
+                seconds--;
+                if (seconds >= 0) {
+                    countdownElement.textContent = seconds;
+                }
+            }, 1000);
+        })();
+    </script>
+</x-guest-layout>
