@@ -7,6 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\StudentViewController;
+// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // Halaman utama
 Route::get('/', function () {
@@ -39,10 +41,8 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 
 // Grup khusus untuk PEMILIH (VOTER)
 Route::middleware(['auth', 'isVoter'])->group(function () {
-    // --- PERUBAHAN UTAMA DI SINI ---
     // Halaman utama untuk pemilih (pemilihan kandidat) kita beri nama 'vote.index'
     Route::get('/dashboard', [VoteController::class, 'create'])->middleware('hasNotVoted')->name('vote.index');
-    // --- PERUBAHAN SELESAI ---
 
     // Rute untuk proses mengirimkan suara
     Route::post('/vote', [VoteController::class, 'store'])->middleware('hasNotVoted')->name('vote.store');
@@ -52,6 +52,11 @@ Route::middleware(['auth', 'isVoter'])->group(function () {
         return view('vote.thanks');
     })->name('vote.thanks');
 });
+
+// --- ▼▼▼ TAMBAHKAN RUTE BARU INI ▼▼▼ ---
+// Rute ini akan dipanggil dari halaman 'terima-kasih' untuk proses logout
+Route::get('/voter-logout', [AuthenticatedSessionController::class, 'voterLogout'])->name('voter.logout');
+// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
 
 require __DIR__.'/auth.php';

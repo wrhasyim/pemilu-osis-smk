@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- INI ADALAH PERUBAHAN UTAMA --}}
-        <meta http-equiv="refresh" content="5;url={{ route('login') }}">
+        <meta http-equiv="refresh" content="5;url={{ route('voter.logout') }}">
 
         <title>{{ config('app.name', 'Laravel') }} - Terima Kasih</title>
 

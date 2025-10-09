@@ -8,7 +8,6 @@ use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class VoteController extends Controller
 {
@@ -22,29 +21,23 @@ class VoteController extends Controller
     }
 
     /**
-     * Menyimpan suara.
+     * Menyimpan suara dan redirect ke halaman Terima Kasih.
      */
     public function store(Request $request)
     {
-        
         $request->validate(['candidate_id' => 'required|exists:candidates,id']);
 
         $user = Auth::user();
 
-        // Simpan suara dan update status user
         DB::transaction(function () use ($user, $request) {
             Vote::create(['user_id' => $user->id, 'candidate_id' => $request->candidate_id]);
             $user->has_voted = true;
             $user->save();
         });
-    
-        // Logout pengguna
-        Auth::logout();
-        
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        // Redirect ke halaman "Terima Kasih"
+        // --- PERBAIKAN UTAMA ---
+        // Hapus semua proses logout. Langsung redirect ke halaman Terima Kasih.
+        // Siswa masih dalam keadaan login saat melihat halaman ini.
         return redirect()->route('vote.thanks');
     }
 }
