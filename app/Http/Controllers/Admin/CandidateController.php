@@ -20,42 +20,31 @@ class CandidateController extends Controller
         return view('admin.candidates.create');
     }
 
-   public function store(Request $request)
-{
-    // Debug #1: Cek apakah ada file yang dikirim
-    if (!$request->hasFile('photo')) {
-        dd('Error: Tidak ada file foto yang terkirim dari form.');
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
+            'vision'  => 'required|string',
+            'mission' => 'required|string',
+            'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:10240', // Maks 10MB
+        ]);
+
+        // 1. Simpan file menggunakan disk 'public_direct' untuk mendapatkan nama file unik.
+        $filename = $request->file('photo')->store('', 'public_direct');
+
+        // 2. Buat path lengkap yang akan disimpan ke database.
+        $path = 'photos/' . $filename;
+
+        // 3. Masukkan path lengkap ke dalam data yang akan divalidasi.
+        $validated['photo'] = $path;
+
+        Candidate::create($validated);
+
+        return redirect()->route('admin.candidates.index')->with('success', 'Kandidat berhasil ditambahkan.');
     }
-
-    // Debug #2: Cek apakah file tersebut valid (bisa dikenali sebagai file)
-    if (!$request->file('photo')->isValid()) {
-        dd('Error: File foto yang dikirim tidak valid atau rusak saat proses upload.');
-    }
-
-    // dd($request->all()); // Hentikan di sini untuk melihat semua data request
-
-    // Validasi input dari form
-    $validated = $request->validate([
-        'name'    => 'required|string|max:255',
-        'vision'  => 'required|string',
-        'mission' => 'required|string',
-        'photo'   => 'required|image|mimes:jpeg,png,jpg,gif|max:10240', // Wajib gambar, maks 2MB
-    ]);
-
-    // Proses upload dan simpan file foto
-    // Kita tidak akan menjalankan ini dulu untuk memastikan validasi lolos
-    // Pindahkan file langsung ke public/photos dan simpan path relatifnya
-$path = $request->file('photo')->store('', 'public_direct');
-    $validated['photo'] = $path;
-    
-    Candidate::create($validated);
-
-    return redirect()->route('admin.candidates.index')->with('success', 'Kandidat berhasil ditambahkan.');
-}
 
     public function show(Candidate $candidate)
     {
-        // Biasanya tidak digunakan di admin panel, redirect ke index
         return redirect()->route('admin.candidates.index');
     }
 
@@ -67,18 +56,22 @@ $path = $request->file('photo')->store('', 'public_direct');
     public function update(Request $request, Candidate $candidate)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'vision' => 'required|string',
+            'name'    => 'required|string|max:255',
+            'vision'  => 'required|string',
             'mission' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'photo'   => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240', // Maks 10MB
         ]);
 
         if ($request->hasFile('photo')) {
-            // Hapus foto lama jika ada
+            // Hapus foto lama jika ada, gunakan disk 'public_direct'
             if ($candidate->photo) {
-                Storage::delete($candidate->photo);
+                // basename() mengambil nama file dari path (e.g., photos/file.jpg -> file.jpg)
+                Storage::disk('public_direct')->delete(basename($candidate->photo));
             }
-            $path = $request->file('photo')->store('public/photos');
+
+            // Simpan foto baru dengan logika yang sama seperti di method store()
+            $filename = $request->file('photo')->store('', 'public_direct');
+            $path = 'photos/' . $filename;
             $validated['photo'] = $path;
         }
 
@@ -89,11 +82,11 @@ $path = $request->file('photo')->store('', 'public_direct');
 
     public function destroy(Candidate $candidate)
     {
-        // Hapus foto dari storage
+        // Hapus foto dari disk 'public_direct'
         if ($candidate->photo) {
-            Storage::delete($candidate->photo);
+            Storage::disk('public_direct')->delete(basename($candidate->photo));
         }
-        
+
         $candidate->delete();
 
         return redirect()->route('admin.candidates.index')->with('success', 'Kandidat berhasil dihapus.');

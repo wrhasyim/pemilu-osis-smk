@@ -20,8 +20,8 @@
     @forelse($candidates as $candidate)
     <tr class="text-center">
         <td class="py-2 px-4 border-b">
-            {{-- PASTIKAN BARIS INI MENGGUNAKAN Storage::url() --}}
-            <img src="{{ asset('photos/' . basename($candidate->photo)) }}" alt="{{ $candidate->name }}" class="h-16 w-16 object-cover rounded-full mx-auto">
+            {{-- BARIS INI SUDAH DIPERBARUI --}}
+            <img src="{{ asset($candidate->photo) }}" alt="{{ $candidate->name }}" class="h-16 w-16 object-cover rounded-full mx-auto">
         </td>
         <td class="py-2 px-4 border-b">{{ $candidate->name }}</td>
         <td class="py-2 px-4 border-b">

@@ -15,7 +15,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         @forelse ($candidates as $candidate)
                             <div class="border rounded-lg p-4 shadow-lg flex flex-col items-center">
-                                <img src="{{ Storage::url($candidate->photo) }}" alt="{{ $candidate->name }}" class="w-32 h-32 rounded-full object-cover mb-4 border-4 border-gray-200">
+                                {{-- PERUBAHAN ADA DI BARIS INI --}}
+                                <img src="{{ asset($candidate->photo) }}" alt="{{ $candidate->name }}" class="w-32 h-32 rounded-full object-cover mb-4 border-4 border-gray-200">
+                                
                                 <h4 class="text-xl font-bold">{{ $candidate->name }}</h4>
                                 <div class="text-left mt-4 w-full px-2">
                                     <p class="font-semibold">Visi:</p>
