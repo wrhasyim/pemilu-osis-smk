@@ -2,16 +2,16 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
+   server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: '192.168.16.48', // Ganti dengan IP address komputer server Anda
+        },
+    },
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
     ],
-    server: {
-        host: '0.0.0.0', // <-- TAMBAHKAN BARIS INI
-        hmr: {
-            host: 'localhost' // Ini penting agar HMR tetap berjalan
-        }
-    }
 });
