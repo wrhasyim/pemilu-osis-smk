@@ -1,14 +1,13 @@
-<x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Pengaturan Jadwal Pemilihan') }}
-        </h2>
-    </x-slot>
+@extends('layouts.admin')
 
+@section('content')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-6">
+                        {{ __('Pengaturan Jadwal Pemilihan') }}
+                    </h2>
 
                     @if (session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -25,7 +24,7 @@
                                 Waktu Mulai Voting:
                             </label>
                             <input type="datetime-local" name="voting_start_time" id="voting_start_time"
-                                   value="{{ $settings->voting_start_time ? $settings->voting_start_time->format('Y-m-d\TH:i') : '' }}"
+                                   value="{{ old('voting_start_time', $settings->voting_start_time ? $settings->voting_start_time->format('Y-m-d\TH:i') : '') }}"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('voting_start_time') border-red-500 @enderror"
                                    required>
                             @error('voting_start_time')
@@ -38,7 +37,7 @@
                                 Waktu Selesai Voting:
                             </label>
                             <input type="datetime-local" name="voting_end_time" id="voting_end_time"
-                                   value="{{ $settings->voting_end_time ? $settings->voting_end_time->format('Y-m-d\TH:i') : '' }}"
+                                   value="{{ old('voting_end_time', $settings->voting_end_time ? $settings->voting_end_time->format('Y-m-d\TH:i') : '') }}"
                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('voting_end_time') border-red-500 @enderror"
                                    required>
                             @error('voting_end_time')
@@ -56,4 +55,4 @@
             </div>
         </div>
     </div>
-</x-admin-layout>
+@endsection
