@@ -17,8 +17,6 @@ class VoteController extends Controller
      */
     public function create()
     {
-        // --- PERBAIKAN DI SINI ---
-        // Ambil semua data kandidat dan tampilkan view 'vote.create'
         $candidates = Candidate::all();
         return view('vote.create', compact('candidates'));
     }
@@ -28,34 +26,25 @@ class VoteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'candidate_id' => 'required|exists:candidates,id',
-        ]);
+        
+        $request->validate(['candidate_id' => 'required|exists:candidates,id']);
 
         $user = Auth::user();
 
-        try {
-            DB::transaction(function () use ($user, $request) {
-                // 1. Simpan suara
-                Vote::create([
-                    'user_id' => $user->id,
-                    'candidate_id' => $request->candidate_id,
-                ]);
-
-                // 2. Update status user
-                $user->has_voted = true;
-                $user->save();
-            });
-        } catch (\Exception $e) {
-            Log::error('Gagal menyimpan suara: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
-        }
-
-        // Logout dan redirect ke halaman terima kasih
+        // Simpan suara dan update status user
+        DB::transaction(function () use ($user, $request) {
+            Vote::create(['user_id' => $user->id, 'candidate_id' => $request->candidate_id]);
+            $user->has_voted = true;
+            $user->save();
+        });
+    
+        // Logout pengguna
         Auth::logout();
+        
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        // Redirect ke halaman "Terima Kasih"
         return redirect()->route('vote.thanks');
     }
 }

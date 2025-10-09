@@ -9,21 +9,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HasNotVoted
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        // --- PERBAIKAN UTAMA ---
-        // Kita paksa logika untuk memeriksa kolom 'has_voted' secara eksplisit.
-        // Jika statusnya TRUE, baru alihkan. Ini mencegah kesalahan interpretasi.
+        // Logika final: Jika status pemilih adalah TRUE, alihkan.
         if (Auth::user()->has_voted === true) {
             return redirect()->route('vote.thanks');
         }
 
-        // Jika belum memilih, izinkan siswa melanjutkan ke halaman voting.
+        // Jika FALSE, izinkan ke halaman pemilihan.
         return $next($request);
     }
 }

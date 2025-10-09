@@ -28,16 +28,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // PENAMBAHAN LOGIKA REDIRECT BERDASARKAN ROLE
         if ($request->user()->role === 'admin') {
-            // Jika user adalah admin, arahkan ke dashboard admin
             return redirect()->route('admin.dashboard');
         }
 
-        // --- PERUBAHAN UTAMA DI SINI ---
-        // Jika bukan admin (adalah pemilih), arahkan ke halaman vote.index
-        return redirect()->intended(route('vote.index', absolute: false));
-        // --- PERUBAHAN SELESAI ---
+        // --- PERBAIKAN UTAMA DI SINI ---
+        // Kita gunakan redirect langsung ke rute voting, bukan intended()
+        // untuk mencegah redirect yang salah.
+        return redirect()->route('vote.index');
     }
 
     /**
