@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2025 at 10:24 AM
+-- Generation Time: Oct 09, 2025 at 10:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -178,9 +178,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('FoeR6MAGRjABu6TrRnIxh5kV7wGHIsbguI5ERuVX', NULL, '192.168.16.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoic0FHRVRHb2hTRlpYdFl6RHZrWE9uQ3RqNzFjTGs4NG5zRGtQYzhCUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xOTIuMTY4LjE2LjQ4OjgwMDAvbG9naW4iO319', 1759998205),
-('i4tcaWIVsmWdB6ITYGHpBUN14qzI2cLPwnl7PloC', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoib3pId3ZUMVNJNW92MEhmbjh4TVVRU3JrcE5lSmVkbE9XWFRnUGJvcyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2FkbWluL3N0dWRlbnRzIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1759998232),
-('mHIkEggGn9eVdUR4x6uvz6AAL7gDk2ZBfm7KLkc4', 1, '192.168.16.5', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiREdyN0hOWWVNampNNExVeUpLdWRYdEh5RW10TEhOQ29MYlFSM096TiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHA6Ly8xOTIuMTY4LjE2LjQ4OjgwMDAvYWRtaW4vc3R1ZGVudHM/cGFnZT0xIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1759995919);
+('FoeR6MAGRjABu6TrRnIxh5kV7wGHIsbguI5ERuVX', NULL, '192.168.16.48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoic0FHRVRHb2hTRlpYdFl6RHZrWE9uQ3RqNzFjTGs4NG5zRGtQYzhCUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xOTIuMTY4LjE2LjQ4OjgwMDAvbG9naW4iO319', 1759998594),
+('i4tcaWIVsmWdB6ITYGHpBUN14qzI2cLPwnl7PloC', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoib3pId3ZUMVNJNW92MEhmbjh4TVVRU3JrcE5lSmVkbE9XWFRnUGJvcyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2FkbWluL3N0dWRlbnRzIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXNoYm9hcmQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1759998601),
+('mHIkEggGn9eVdUR4x6uvz6AAL7gDk2ZBfm7KLkc4', 1, '192.168.16.5', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiREdyN0hOWWVNampNNExVeUpLdWRYdEh5RW10TEhOQ29MYlFSM096TiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly8xOTIuMTY4LjE2LjQ4OjgwMDAvYWRtaW4vZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1759998587);
 
 -- --------------------------------------------------------
 
@@ -1028,7 +1028,44 @@ INSERT INTO `users` (`id`, `name`, `username`, `class`, `password`, `role`, `has
 (797, 'RIKI', '232410251', 'XII TM 7', '$2y$12$oH.wNoBd//1aEoAJhU0aY.eomXTT0Y5H8G2QNB8MLEKuI.THxZNEW', 'voter', 0, NULL, '2025-10-09 01:12:14', '2025-10-09 01:12:14'),
 (798, 'SAEPUL ANWAR', '232410261', 'XII TM 7', '$2y$12$9ceitKNpgC8FiKgo4cIfJucbE91P4Ea5IwQA7Qhs5ioOEyolRH/pO', 'voter', 0, NULL, '2025-10-09 01:12:14', '2025-10-09 01:12:14'),
 (799, 'WARMAN', '232410300', 'XII TM 7', '$2y$12$bO/Wi7MxjB9GGrQeXx9ym.M6aHcFyjqI2dd18j.aJWF/t2sAQTps2', 'voter', 0, NULL, '2025-10-09 01:12:14', '2025-10-09 01:12:14'),
-(800, 'YASMIN', '232410308', 'XII TM 7', '$2y$12$Mep5EmfvygniAWybvEVQfueXpImao1eGXFe6ulo6WQ7SAPXobMb1y', 'voter', 0, NULL, '2025-10-09 01:12:15', '2025-10-09 01:12:15');
+(800, 'YASMIN', '232410308', 'XII TM 7', '$2y$12$Mep5EmfvygniAWybvEVQfueXpImao1eGXFe6ulo6WQ7SAPXobMb1y', 'voter', 0, NULL, '2025-10-09 01:12:15', '2025-10-09 01:12:15'),
+(801, 'Anita Nuraeni, S.Pd.I', '001', 'GURU', '$2y$12$61zrnxz2Syy0WUfBGu7SKuIaKsGOLzoc6J2P3ld5bSSXuAcU0.iVq', 'voter', 0, NULL, '2025-10-09 01:29:01', '2025-10-09 01:29:01'),
+(802, 'Drs. Dana Sutisna', '002', 'GURU', '$2y$12$ilJcggpPhEyXq5ymUb76Xuqd8sWeY1gfX72LrwXk3fxksg8MyW0/m', 'voter', 0, NULL, '2025-10-09 01:29:01', '2025-10-09 01:29:01'),
+(803, 'Asim Azhari, A.Md', '003', 'GURU', '$2y$12$K2m7wfQAKv/R7rxgew8jzedEN1gDEgkBgaImMyil2zITb.V5YfmH6', 'voter', 0, NULL, '2025-10-09 01:29:02', '2025-10-09 01:29:02'),
+(804, 'Wahyu Rusdiansyah, S.Kom', '004', 'GURU', '$2y$12$eZE06t5nLg1yEgHVrA9vCOhmT6m0APvs1AboGvvkC6vJ.8Cp/5VJu', 'voter', 0, NULL, '2025-10-09 01:29:03', '2025-10-09 01:29:03'),
+(805, 'Saepudin Lubis, S.Pd, MM', '005', 'GURU', '$2y$12$kNC3NkcprIVczUf3y4/Y0uufCbYNsVeoxeG6O8mhbHVT2PGfk6gVq', 'voter', 0, NULL, '2025-10-09 01:29:03', '2025-10-09 01:29:03'),
+(806, 'Eka Supriadi, S.Kom', '006', 'GURU', '$2y$12$8MwUgvJ9MY2PKQ7qzwzqGu8XbExZx6M2Dlwfuie/kFQ8ng73p0PZy', 'voter', 0, NULL, '2025-10-09 01:29:03', '2025-10-09 01:29:03'),
+(807, 'Moerdiono, SH', '007', 'GURU', '$2y$12$5t9Zx0Vn9xd6Ka/UBqF5pedMNyUaxkzgNcO6z.xk7G/FEVl5LyReO', 'voter', 0, NULL, '2025-10-09 01:29:04', '2025-10-09 01:29:04'),
+(808, 'Renaldi Ferdiansah, S.Pd', '008', 'GURU', '$2y$12$OHxNVVuv8.1FQbxTHw3DfOcDVSEk7HBtZ0SS744LbIwBpIBLmJznW', 'voter', 0, NULL, '2025-10-09 01:29:04', '2025-10-09 01:29:04'),
+(809, 'Icih Kurnianengsih,S.Pd', '009', 'GURU', '$2y$12$NNVxzPza6zcJUAGW67U/geILktz2g8neEZVNcwBMGE0Y6xmz/Im.G', 'voter', 0, NULL, '2025-10-09 01:29:04', '2025-10-09 01:29:04'),
+(810, 'Siti Ina Rosyana, S.Pd', '010', 'GURU', '$2y$12$fZ4qql.9br2AWKscyOCb2.k9M0eQZKMdl7EE1HXZjRJnCzKN18Cpe', 'voter', 0, NULL, '2025-10-09 01:29:04', '2025-10-09 01:29:04'),
+(811, 'Iim Fauziah, S.Ag.', '011', 'GURU', '$2y$12$QLt5Y9N0lJqppyGeNfoUwe/T4FCyYGS8C84x8Je03Jmam45mk9TVG', 'voter', 0, NULL, '2025-10-09 01:29:05', '2025-10-09 01:29:05'),
+(812, 'Ahmad Muhibban, S.Ag', '012', 'GURU', '$2y$12$95LBRTvk6G3HVDjjEyLZLuXNZ4ghi95G0rsaeW8y3ZADwbWxqZHUq', 'voter', 0, NULL, '2025-10-09 01:29:05', '2025-10-09 01:29:05'),
+(813, 'Dini Dimyati, S.Pd', '013', 'GURU', '$2y$12$h2KSBrd2Vn4tLJtIFUsCHe/BimVaRbeZRk5UgWMu5G0WiG4.zEVzO', 'voter', 0, NULL, '2025-10-09 01:29:05', '2025-10-09 01:29:05'),
+(814, 'Naupal Irsyad, S.Pd', '014', 'GURU', '$2y$12$R3epvs.04KyREfdncsgbl.Ot/AkE83v4ul.gemFg44WJUgsIYq7hq', 'voter', 0, NULL, '2025-10-09 01:29:06', '2025-10-09 01:29:06'),
+(815, 'Karyati,S.Pd', '015', 'GURU', '$2y$12$soxSIokiIg4lpv6TSSoWiO.FrWRpAo/vDnEGwXxd6C4vTPsyhsHai', 'voter', 0, NULL, '2025-10-09 01:29:06', '2025-10-09 01:29:06'),
+(816, 'Yati Nurhayati, S.Pd', '016', 'GURU', '$2y$12$LnYLJT2PVk3inTPLqh2o8Oi5bZZzswmbACz9yLkjsv6MQ/ZF/frbW', 'voter', 0, NULL, '2025-10-09 01:29:06', '2025-10-09 01:29:06'),
+(817, 'Sukatmo, S.Pd', '017', 'GURU', '$2y$12$WXTao/.IUCChXNhjPnh2OeeNhjDUvC1QANtqFPGN3Ymq7XMyIdX5e', 'voter', 0, NULL, '2025-10-09 01:29:06', '2025-10-09 01:29:06'),
+(818, 'Agung Islahudin, S.Pd', '018', 'GURU', '$2y$12$HLdnSnJ4nF8G8QemsmFX4eSR9T6SoC19gJuafE0NDZghSjfBkTmPe', 'voter', 0, NULL, '2025-10-09 01:29:07', '2025-10-09 01:29:07'),
+(819, 'Dewi Damayanti, S.Pd', '019', 'GURU', '$2y$12$oziguVlqD8F7iltg45qAyurqOM/vDwdmmOLc6x/VmyExUIr2GytkC', 'voter', 0, NULL, '2025-10-09 01:29:07', '2025-10-09 01:29:07'),
+(820, 'Euis Nani, S.E', '020', 'GURU', '$2y$12$pkhnj6e8.KyjMjaB/lxhueasvVOWC87NvsfRK6tgCQatC7ggTyBBe', 'voter', 0, NULL, '2025-10-09 01:29:07', '2025-10-09 01:29:07'),
+(821, 'Mumun Munawaroh, S.Kom', '021', 'GURU', '$2y$12$mWUcsoxORW2zC7l4wLCnUOIPV9B1x33Qkw0BmxKDcOnj6x4P7D7wW', 'voter', 0, NULL, '2025-10-09 01:29:07', '2025-10-09 01:29:07'),
+(822, 'Bintang Kusuma Wardhana, S.Si., M.Or', '022', 'GURU', '$2y$12$5QHhZt1ZhiB87CggQqqdUubxswg3l1KWI2QYhiK6j5ln05X3U0Tni', 'voter', 0, NULL, '2025-10-09 01:29:08', '2025-10-09 01:29:08'),
+(823, 'Budi Azani, S.Pd', '023', 'GURU', '$2y$12$ySvvC7ObtJCPsW9yzUnbr.aAaLMmNzTBbEWUkKUj//sgBMouohYya', 'voter', 0, NULL, '2025-10-09 01:29:08', '2025-10-09 01:29:08'),
+(824, 'Rita Khoerunnisa, S.S', '024', 'GURU', '$2y$12$nPa7CrWEDET.HIDpFxr/FuQpG.5pdbL7o2H1tVdBwzT9oInP7Rw3q', 'voter', 0, NULL, '2025-10-09 01:29:08', '2025-10-09 01:29:08'),
+(825, 'Joni Abdul Khalid', '025', 'GURU', '$2y$12$N9fC0sSDToZRmUugSd3EROMtMvP6xhUGOyl6nX3Gjy5ATAW4nT25e', 'voter', 0, NULL, '2025-10-09 01:29:09', '2025-10-09 01:29:09'),
+(826, 'Abdul Azis, A.Md', '026', 'GURU', '$2y$12$9ipiuK2b4nblCOhL/EaObuK6n4S5T7m8eM5Q/GplC9xtCs4Gytx4C', 'voter', 0, NULL, '2025-10-09 01:29:09', '2025-10-09 01:29:09'),
+(827, 'Rusdiyanto, ST', '027', 'GURU', '$2y$12$kBSnMnbB1jMNidAtUqI1m.l5PfqNWg5b3p8rLF8mhncUq78zzSjpO', 'voter', 0, NULL, '2025-10-09 01:29:09', '2025-10-09 01:29:09'),
+(828, 'Tri Ayuni Bila Kartika, S.Pd', '028', 'GURU', '$2y$12$K3GvF2E2.ZE3vSLjUvFiseNxUVTj8PAHFmueftmC3VsMXphrAXgym', 'voter', 0, NULL, '2025-10-09 01:29:10', '2025-10-09 01:29:10'),
+(829, 'Viona Fara Nabila, S.Pd', '029', 'GURU', '$2y$12$w2EIC0juxaBgldolJ1G1j.8FcAndzlRjBpG/yl8p6Ckty620vblee', 'voter', 0, NULL, '2025-10-09 01:29:10', '2025-10-09 01:29:10'),
+(830, 'Tri Zulfan Purnama Putra, S.Pd', '030', 'GURU', '$2y$12$kcjkfo8Rcl4xDPSloZtD3um2jG1EE..b.Ao72TXbEiFwyB3wl2U2S', 'voter', 0, NULL, '2025-10-09 01:29:10', '2025-10-09 01:29:10'),
+(831, 'Ayu Wulandari, S.Tr.Kes', '031', 'GURU', '$2y$12$TTeN6lgmvQo.k2PERiSaouOMt7vGdX76wGsEGN6X90f2LG92KbqGu', 'voter', 0, NULL, '2025-10-09 01:29:10', '2025-10-09 01:29:10'),
+(832, 'Rifki Nur Hidayat, ST', '032', 'GURU', '$2y$12$lU1v.aFtHsgekOggbuZ32.TYyngTYpORXE1KE.KDlqm6GZMTxX002', 'voter', 0, NULL, '2025-10-09 01:29:11', '2025-10-09 01:29:11'),
+(833, 'Mohammad Alwi, S.Pd', '033', 'GURU', '$2y$12$FciLUjB5lMmSw9o0rNdezu8.Ztjj1CdBZP9AMahgBtNiDTXHN6fqG', 'voter', 0, NULL, '2025-10-09 01:29:11', '2025-10-09 01:29:11'),
+(834, 'Fadia Ulfa Angelina, A.Md', '034', 'GURU', '$2y$12$UlYtWpwi.Jlaalq4QofNt.3kaqYduTnVA6J2IvTyMPcbBRluQj3Em', 'voter', 0, NULL, '2025-10-09 01:29:11', '2025-10-09 01:29:11'),
+(835, 'Nida Ayu Zahara, S.Pd', '035', 'GURU', '$2y$12$GTYflNgnNe/jK9W4jJ1YuuZZTGE0x5NzWGIc1u0gHFGD8L0mHtGTe', 'voter', 0, NULL, '2025-10-09 01:29:12', '2025-10-09 01:29:12'),
+(836, 'Yusril Indra Kosasih', '036', 'GURU', '$2y$12$aMQgMek5Zw5uRoZBRHmL8ePOYkEcDp2Xm8rSQbqk3vnev3FfNq0U6', 'voter', 0, NULL, '2025-10-09 01:29:12', '2025-10-09 01:29:12'),
+(837, 'Siti Yulyasinta Lukmana Putri, S.Pd', '037', 'GURU', '$2y$12$KBTsSv7YLkq5lUpyPV8uK.c4DjmXSi..UOIGxtchHevaOO5AVSNB.', 'voter', 0, NULL, '2025-10-09 01:29:12', '2025-10-09 01:29:12');
 
 -- --------------------------------------------------------
 
@@ -1165,7 +1202,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=801;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=838;
 
 --
 -- AUTO_INCREMENT for table `votes`
