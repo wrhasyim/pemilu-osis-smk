@@ -21,7 +21,7 @@
         <thead class="bg-gray-100">
             <tr>
                 <th class="py-2 px-4 border-b text-left">Nama</th>
-                <th class="py-2 px-4 border-b text-left">NIS</th>
+                <th class="py-2 px-4 border-b text-left">Username</th>
                 <th class="py-2 px-4 border-b text-left">Kelas</th>
                 <th class="py-2 px-4 border-b text-center">Status Memilih</th>
             </tr>
@@ -30,9 +30,11 @@
             @forelse($students as $student)
             <tr class="hover:bg-gray-50">
                 <td class="py-2 px-4 border-b">{{ $student->name }}</td>
+                {{-- Menggunakan kolom 'username' sesuai database Anda --}}
                 <td class="py-2 px-4 border-b">{{ $student->username }}</td>
                 <td class="py-2 px-4 border-b">{{ $student->class }}</td>
                 <td class="py-2 px-4 border-b text-center">
+                    {{-- Kondisi ini sekarang akan berfungsi dengan benar --}}
                     @if($student->has_voted)
                         <span class="bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full text-xs">Sudah Memilih</span>
                     @else

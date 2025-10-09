@@ -2,50 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidate;
 use App\Models\Vote;
+use App\Models\Candidate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class VoteController extends Controller
 {
-    // Menampilkan halaman vote
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $candidates = Candidate::all();
         return view('vote.create', compact('candidates'));
     }
 
-    // Menyimpan suara
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
             'candidate_id' => 'required|exists:candidates,id',
         ]);
 
-        $user = auth()->user();
+        $user = Auth::user();
 
-        // Gunakan DB Transaction untuk memastikan integritas data
-        // Jika salah satu query gagal, semua akan dibatalkan (rollback)
-        try {
-            DB::transaction(function () use ($user, $request) {
-                // 1. Simpan suara
-                Vote::create([
-                    'user_id' => $user->id,
-                    'candidate_id' => $request->candidate_id,
-                ]);
+        // 1. Simpan detail suara ke tabel 'votes'
+        Vote::create([
+            'user_id' => $user->id,
+            'candidate_id' => $request->candidate_id,
+        ]);
 
-                // 2. Update status user menjadi sudah memilih
-                $user->has_voted = true;
-                $user->save();
-            });
-        } catch (\Exception $e) {
-            // Jika terjadi error, catat di log dan kembalikan dengan pesan error
-            Log::error('Gagal menyimpan suara: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
-        }
+        // 2. PERUBAHAN UTAMA: Update status 'has_voted' di tabel 'users'
+        $user->has_voted = true;
+        $user->save();
 
+        // 3. Logout pengguna
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // 4. Redirect ke halaman terima kasih
         return redirect()->route('vote.thanks');
     }
 }

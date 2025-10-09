@@ -13,7 +13,7 @@ class StudentViewController extends Controller
         // Ambil semua kelas unik dari user yang merupakan pemilih
         $classes = User::where('role', 'voter')->distinct()->pluck('class');
 
-        // Query dasar untuk mengambil data siswa
+        // Query dasar (tidak perlu with('vote') lagi)
         $query = User::where('role', 'voter')->orderBy('class')->orderBy('name');
 
         // Filter berdasarkan kelas jika ada input
