@@ -40,7 +40,7 @@
                                     <x-input-label for="username" :value="__('Username')" class="font-semibold" />
                                     <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" placeholder="Masukkan Username Anda" />
                                     <x-input-error :messages="$errors->get('username')" class="mt-2" />
-                                 astounding</div>
+                                </div>
 
                                 <div class="mt-4">
                                     <x-input-label for="password" :value="__('Password')" class="font-semibold" />
@@ -50,13 +50,13 @@
                                                     required autocomplete="current-password"
                                                     placeholder="********" />
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                                 astounding</div>
+                                </div>
 
                                 <div class="flex items-center justify-end mt-6">
                                     <x-primary-button class="w-full text-center justify-center py-3 text-base">
                                         {{ __('MASUK') }}
                                     </x-primary-button>
-                                 astounding</div>
+                                </div>
                             </form>
                         </div>
                     </div>

@@ -35,49 +35,100 @@
     {{-- Memanggil library Chart.js dari CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    {{-- Skrip untuk membuat grafik --}}
+    {{-- 🎨 KODE BARU UNTUK GRAFIK YANG LEBIH MODERN --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const ctx = document.getElementById('voteChart').getContext('2d');
+            const chartLabels = @json($chartLabels);
+            const chartData = @json($chartData);
+
+            // Definisikan palet warna modern yang akan diulang jika kandidat banyak
+            const modernColors = [
+                'rgba(59, 130, 246, 0.7)',  // blue-500
+                'rgba(239, 68, 68, 0.7)',   // red-500
+                'rgba(249, 115, 22, 0.7)', // orange-500
+                'rgba(34, 197, 94, 0.7)',   // green-500
+                'rgba(168, 85, 247, 0.7)'   // purple-500
+            ];
+
+            const backgroundColors = chartData.map((_, i) => modernColors[i % modernColors.length]);
+            const borderColors = backgroundColors.map(color => color.replace('0.7', '1'));
 
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: @json($chartLabels),
+                    labels: chartLabels,
                     datasets: [{
                         label: 'Jumlah Suara',
-                        data: @json($chartData),
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 0.5)',
-                            'rgba(255, 99, 132, 0.5)',
-                            'rgba(75, 192, 192, 0.5)',
-                            'rgba(255, 206, 86, 0.5)',
-                            'rgba(153, 102, 255, 0.5)',
-                        ],
-                        borderColor: [
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(153, 102, 255, 1)',
-                        ],
-                        borderWidth: 1
+                        data: chartData,
+                        backgroundColor: backgroundColors,
+                        borderColor: borderColors,
+                        borderWidth: 1,
+                        borderRadius: 6, // Sudut bar yang lebih modern
+                        borderSkipped: false,
                     }]
                 },
                 options: {
+                    indexAxis: 'y', // Mengubah menjadi grafik batang horizontal
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: {
+                        x: {
                             beginAtZero: true,
+                            grid: {
+                                display: true,
+                                color: '#e5e7eb' // Garis grid lebih soft
+                            },
                             ticks: {
-                                stepSize: 1 // Agar skala y menjadi 1, 2, 3, dst.
+                                stepSize: 1, // Skala sumbu x menjadi 1, 2, 3
+                                font: {
+                                    size: 12,
+                                    family: 'Figtree, sans-serif'
+                                },
+                                color: '#6b7280'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false // Menghilangkan garis grid vertikal
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    family: 'Figtree, sans-serif'
+                                },
+                                color: '#374151'
                             }
                         }
                     },
                     plugins: {
                         legend: {
                             display: false // Menyembunyikan legenda
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(17, 24, 39, 0.8)', // bg-gray-900
+                            titleFont: {
+                                size: 14,
+                                family: 'Figtree, sans-serif',
+                            },
+                            bodyFont: {
+                                size: 12,
+                                family: 'Figtree, sans-serif',
+                            },
+                            padding: 12,
+                            boxPadding: 4,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + ' Suara';
+                                    }
+                                    return label;
+                                }
+                            }
                         }
                     }
                 }
