@@ -16,7 +16,10 @@
                     
                     {{-- Kolom Kiri: Branding & Informasi --}}
                     <div class="p-8 md:p-12 bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex flex-col justify-center items-center text-center">
-                        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="w-28 h-28 mb-6">
+                        
+                        {{-- ✅ PERBAIKAN DI SINI --}}
+                        <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah" class="h-32 w-auto mb-6">
+
                         <h1 class="text-3xl font-bold mb-3">E-Voting Pemilu OSIS</h1>
                         <p class="text-indigo-200">SMK TARUNA KARYA MANDIRI</p>
                         <hr class="w-1/3 my-6 border-indigo-400">
