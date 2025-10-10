@@ -8,22 +8,31 @@ use Illuminate\Http\Request;
 
 class StudentViewController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     * * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request) // ✅ PERBAIKAN: Mengubah `__invoke` menjadi `index`
     {
-        // Ambil semua kelas unik dari user yang merupakan pemilih
-        $classes = User::where('role', 'voter')->distinct()->pluck('class');
+        $query = User::where('role', 'voter')->orderBy('name', 'asc');
 
-        // Query dasar (tidak perlu with('vote') lagi)
-        $query = User::where('role', 'voter')->orderBy('class')->orderBy('name');
-
-        // Filter berdasarkan kelas jika ada input
-        if ($request->has('class') && $request->class != '') {
-            $query->where('class', $request->class);
+        // Terapkan filter berdasarkan status `has_voted`
+        if ($request->has('status') && $request->status != '') {
+            if ($request->status == 'sudah') {
+                $query->where('has_voted', true);
+            } elseif ($request->status == 'belum') {
+                $query->where('has_voted', false);
+            }
         }
 
-        // Ambil data dengan paginasi
-        $students = $query->paginate(25);
+        // Terapkan filter pencarian nama
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
 
-        return view('admin.students.index', compact('students', 'classes'));
+        $students = $query->paginate(15)->withQueryString();
+
+        return view('admin.students.index', compact('students'));
     }
 }

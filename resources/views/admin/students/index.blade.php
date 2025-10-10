@@ -1,57 +1,96 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow-lg">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold">Data Pemilih (Siswa)</h2>
-        
-        <form action="{{ route('admin.students.index') }}" method="GET">
-            <select name="class" onchange="this.form.submit()" class="border rounded px-3 py-2">
-                <option value="">Semua Kelas</option>
-                @foreach($classes as $class)
-                    <option value="{{ $class }}" {{ request('class') == $class ? 'selected' : '' }}>
-                        {{ $class }}
-                    </option>
-                @endforeach
-            </select>
+<div class="p-4 sm:p-6 lg:p-8">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Data Pemilih</h2>
+    </div>
+
+    {{-- 🎨 BAGIAN FILTER DAN PENCARIAN YANG DIPERBARUI --}}
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <form action="{{ route('admin.students.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+            
+            {{-- Filter Status --}}
+            <div class="w-full">
+                <label for="status" class="block text-sm font-medium text-gray-700">Filter Status Pemilih</label>
+                <select name="status" id="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm" onchange="this.form.submit()">
+                    <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua Status</option>
+                    <option value="sudah" {{ request('status') == 'sudah' ? 'selected' : '' }}>Sudah Memilih</option>
+                    <option value="belum" {{ request('status') == 'belum' ? 'selected' : '' }}>Belum Memilih</option>
+                </select>
+            </div>
+
+            {{-- Cari Nama --}}
+            <div class="w-full">
+                <label for="search" class="block text-sm font-medium text-gray-700">Cari Nama Siswa</label>
+                <div class="relative mt-1">
+                    <input type="text" name="search" id="search" class="block w-full pl-4 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm" value="{{ request('search') }}" placeholder="Ketik nama...">
+                    <button type="submit" class="absolute inset-y-0 right-0 px-4 flex items-center text-gray-400 hover:text-gray-600">
+                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Tombol Reset --}}
+            <div class="w-full md:text-right">
+                 <a href="{{ route('admin.students.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 w-full md:w-auto justify-center">
+                    Reset Filter
+                </a>
+            </div>
         </form>
     </div>
 
-    <table class="min-w-full bg-white">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="py-2 px-4 border-b text-left">Nama</th>
-                <th class="py-2 px-4 border-b text-left">Username</th>
-                <th class="py-2 px-4 border-b text-left">Kelas</th>
-                <th class="py-2 px-4 border-b text-center">Status Memilih</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($students as $student)
-            <tr class="hover:bg-gray-50">
-                <td class="py-2 px-4 border-b">{{ $student->name }}</td>
-                {{-- Menggunakan kolom 'username' sesuai database Anda --}}
-                <td class="py-2 px-4 border-b">{{ $student->username }}</td>
-                <td class="py-2 px-4 border-b">{{ $student->class }}</td>
-                <td class="py-2 px-4 border-b text-center">
-                    {{-- Kondisi ini sekarang akan berfungsi dengan benar --}}
-                    @if($student->has_voted)
-                        <span class="bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full text-xs">Sudah Memilih</span>
-                    @else
-                        <span class="bg-red-100 text-red-700 font-semibold px-3 py-1 rounded-full text-xs">Belum Memilih</span>
-                    @endif
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="4" class="text-center py-4 text-gray-500">Tidak ada data siswa.</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <div class="mt-6">
-        {{ $students->appends(request()->query())->links() }}
+    {{-- 🎨 TABEL DATA PEMILIH YANG DIPERBARUI --}}
+    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @forelse ($students as $student)
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $loop->iteration + $students->firstItem() - 1 }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $student->name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->username }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->class }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                @if ($student->has_voted)
+                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Sudah Memilih
+                                    </span>
+                                @else
+                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        Belum Memilih
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
+                                Data tidak ditemukan.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        
+        {{-- Link Paginasi --}}
+        @if ($students->hasPages())
+            <div class="p-6 bg-white border-t border-gray-200">
+                {{ $students->links() }}
+            </div>
+        @endif
     </div>
 </div>
 @endsection
