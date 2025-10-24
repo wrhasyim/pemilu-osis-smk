@@ -8,17 +8,11 @@
 
     {{-- 🎨 BAGIAN FILTER DAN PENCARIAN YANG DIPERBARUI --}}
     <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-        <form action="{{ route('admin.students.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+        {{-- Grid diubah dari 3 menjadi 2 kolom --}}
+        <form action="{{ route('admin.students.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
             
-            {{-- Filter Status --}}
-            <div class="w-full">
-                <label for="status" class="block text-sm font-medium text-gray-700">Filter Status Pemilih</label>
-                <select name="status" id="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm" onchange="this.form.submit()">
-                    <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua Status</option>
-                    <option value="sudah" {{ request('status') == 'sudah' ? 'selected' : '' }}>Sudah Memilih</option>
-                    <option value="belum" {{ request('status') == 'belum' ? 'selected' : '' }}>Belum Memilih</option>
-                </select>
-            </div>
+            {{-- --- ▼▼▼ BLOK FILTER STATUS DIHAPUS TOTAL ▼▼▼ --- --}}
+            {{-- --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ --- --}}
 
             {{-- Cari Nama --}}
             <div class="w-full">
@@ -52,7 +46,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kelas</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        
+                        {{-- --- ▼▼▼ KOLOM STATUS & AKSI DIHAPUS TOTAL ▼▼▼ --- --}}
+                        {{-- --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ --- --}}
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -62,21 +58,14 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $student->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->username }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $student->class }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
-                                @if ($student->has_voted)
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Sudah Memilih
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Belum Memilih
-                                    </span>
-                                @endif
-                            </td>
+
+                            {{-- --- ▼▼▼ KOLOM STATUS & AKSI DIHAPUS TOTAL ▼▼▼ --- --}}
+                            {{-- --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ --- --}}
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
+                            {{-- Colspan diubah menjadi 4 (sesuai jumlah <th>) --}}
+                            <td colspan="4" class="px-6 py-12 text-center text-sm text-gray-500">
                                 Data tidak ditemukan.
                             </td>
                         </tr>

@@ -3,31 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+use App\Models\ElectionPeriod;
 use App\Imports\StudentsImport;
+// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Concerns\FromArray;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-
-// Class untuk membuat file sampel Excel
-class SampleExport implements FromArray, WithHeadings
-{
-    public function array(): array
-    {
-        // Data contoh di dalam file
-        return [
-            // Kolom password diisi untuk contoh, tapi bisa dikosongkan
-           ['Nama Siswa Contoh', '20250001', 'XII RPL 1', 'passwordcustom'],
-        ];
-    }
-
-    public function headings(): array
-    {
-        // Tambahkan 'password' sebagai header kolom baru
-        return ['nama', 'nis', 'kelas', 'password'];
-    }
-}
-
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class StudentImportController extends Controller
 {
@@ -39,20 +21,35 @@ class StudentImportController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv'
+            'file' => 'required|mimes:xlsx,xls',
         ]);
 
-        Excel::import(new StudentsImport, $request->file('file'));
+        try {
+            // --- ▼▼▼ TAMBAHKAN LOGIKA INI ▼▼▼ ---
+            // 1. Cari periode pemilu yang aktif
+            $activePeriod = ElectionPeriod::where('is_active', true)->first();
 
-        // Diarahkan ke dashboard untuk melihat perubahan statistik
-        return redirect()->route('admin.dashboard')->with('success', 'Data siswa berhasil diimpor!');
+            // 2. Jika tidak ada periode aktif, jangan biarkan impor
+            if (!$activePeriod) {
+                return redirect()->back()->with('error', 'Tidak ada periode pemilu yang aktif. Silakan aktifkan satu periode sebelum mengimpor siswa.');
+            }
+
+            // 3. Kirim $activePeriod ke dalam class Import
+            Excel::import(new StudentsImport($activePeriod), $request->file('file'));
+            // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
+
+            return redirect()->route('admin.students.index')->with('success', 'Data siswa berhasil diimpor.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            // ... (Handling error biarkan saja)
+            return redirect()->back()->with('error', 'Terjadi kesalahan validasi saat impor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Menangani permintaan untuk mengunduh file sampel.
-     */
-    public function downloadSample()
+    public function downloadSample(): BinaryFileResponse
     {
-        return Excel::download(new SampleExport, 'sample_siswa.xlsx');
+        return response()->download(public_path('samples/sample_siswa.xlsx'));
     }
 }

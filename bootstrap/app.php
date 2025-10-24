@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'isAdmin' => \App\Http\Middleware\IsAdmin::class,
             'isVoter' => \App\Http\Middleware\IsVoter::class,
             'hasNotVoted' => \App\Http\Middleware\HasNotVoted::class,
+            'schedule' => \App\Http\Middleware\CheckElectionSchedule::class,
         ]);
 
         // Anda juga bisa menambahkan middleware global, dll di sini jika perlu

@@ -28,6 +28,11 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     // Rute baru untuk dashboard admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/students', [StudentViewController::class, 'index'])->name('students.index');
+
+    // --- ▼▼▼ RUTE RESET VOTE DIHAPUS DARI SINI ▼▼▼ ---
+    // Route::post('/students/{student}/reset-vote', [StudentViewController::class, 'resetVote'])->name('students.reset-vote');
+    // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
+
     // Rute untuk CRUD Kandidat
     Route::resource('candidates', CandidateController::class);
     Route::get('students/import/sample', [StudentImportController::class, 'downloadSample'])->name('students.import.sample');
@@ -42,10 +47,10 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
 // Grup khusus untuk PEMILIH (VOTER)
 Route::middleware(['auth', 'isVoter'])->group(function () {
     // Halaman utama untuk pemilih (pemilihan kandidat) kita beri nama 'vote.index'
-    Route::get('/dashboard', [VoteController::class, 'create'])->middleware('hasNotVoted')->name('vote.index');
+    Route::get('/dashboard', [VoteController::class, 'create'])->middleware(['hasNotVoted', 'schedule'])->name('vote.index');
 
     // Rute untuk proses mengirimkan suara
-    Route::post('/vote', [VoteController::class, 'store'])->middleware('hasNotVoted')->name('vote.store');
+    Route::post('/vote', [VoteController::class, 'store'])->middleware(['hasNotVoted', 'schedule'])->name('vote.store');
 
     // Rute untuk halaman "Terima Kasih" setelah memilih
     Route::get('/terima-kasih', function () {
@@ -53,10 +58,8 @@ Route::middleware(['auth', 'isVoter'])->group(function () {
     })->name('vote.thanks');
 });
 
-// --- ▼▼▼ TAMBAHKAN RUTE BARU INI ▼▼▼ ---
 // Rute ini akan dipanggil dari halaman 'terima-kasih' untuk proses logout
 Route::get('/voter-logout', [AuthenticatedSessionController::class, 'voterLogout'])->name('voter.logout');
-// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
 
 require __DIR__.'/auth.php';

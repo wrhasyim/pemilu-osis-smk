@@ -4,38 +4,39 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo; // <-- Tambahkan ini
+// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vote extends Model
 {
     use HasFactory;
 
-    // --- PERUBAHAN UTAMA DI SINI ---
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_id',
         'candidate_id',
+        // --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+        'election_period_id',
+        // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
     ];
-    // --- PERUBAHAN SELESAI ---
 
-
-    /**
-     * Get the user that owns the vote.
-     */
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the candidate that was voted for.
-     */
-    public function candidate(): BelongsTo
+    public function candidate()
     {
         return $this->belongsTo(Candidate::class);
     }
+
+    // --- ▼▼▼ TAMBAHKAN RELASI BARU INI ▼▼▼ ---
+    /**
+     * Relasi ke ElectionPeriod
+     * Menandakan suara ini milik periode pemilu mana.
+     */
+    public function electionPeriod(): BelongsTo
+    {
+        return $this->belongsTo(ElectionPeriod::class);
+    }
+    // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 }

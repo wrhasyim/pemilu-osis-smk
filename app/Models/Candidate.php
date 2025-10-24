@@ -4,29 +4,31 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Candidate extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
-        'photo',
         'vision',
         'mission',
+        'photo',
+        // --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+        'election_period_id',
+        // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
     ];
 
+    // --- ▼▼▼ TAMBAHKAN RELASI BARU INI ▼▼▼ ---
     /**
-     * Mendefinisikan relasi: Satu Kandidat memiliki banyak Suara (Vote).
+     * Relasi ke ElectionPeriod
+     * Menandakan kandidat ini milik periode pemilu mana.
      */
-    public function votes(): HasMany
+    public function electionPeriod(): BelongsTo
     {
-        return $this->hasMany(Vote::class);
+        return $this->belongsTo(ElectionPeriod::class);
     }
+    // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 }

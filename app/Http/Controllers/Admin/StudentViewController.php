@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+// --- ▼▼▼ Import yang tidak perlu dihapus ▼▼▼ ---
+// use App\Models\Vote;
+// use Illuminate\Http\RedirectResponse;
+// use Illuminate\Support\Facades\DB;
+// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
 class StudentViewController extends Controller
 {
@@ -13,18 +18,20 @@ class StudentViewController extends Controller
      * * @param \Illuminate\Http\Request $request
      * @return \Illuminate\View\View
      */
-    public function index(Request $request) // ✅ PERBAIKAN: Mengubah `__invoke` menjadi `index`
+    public function index(Request $request)
     {
         $query = User::where('role', 'voter')->orderBy('name', 'asc');
 
+        // --- ▼▼▼ BLOK KODE INI DIHAPUS KARENA 'has_voted' TIDAK ADA ▼▼▼ ---
         // Terapkan filter berdasarkan status `has_voted`
-        if ($request->has('status') && $request->status != '') {
-            if ($request->status == 'sudah') {
-                $query->where('has_voted', true);
-            } elseif ($request->status == 'belum') {
-                $query->where('has_voted', false);
-            }
-        }
+        // if ($request->has('status') && $request->status != '') {
+        //     if ($request->status == 'sudah') {
+        //         $query->where('has_voted', true);
+        //     } elseif ($request->status == 'belum') {
+        //         $query->where('has_voted', false);
+        //     }
+        // }
+        // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
         // Terapkan filter pencarian nama
         if ($request->has('search') && $request->search != '') {
@@ -35,4 +42,11 @@ class StudentViewController extends Controller
 
         return view('admin.students.index', compact('students'));
     }
+
+    // --- ▼▼▼ METHOD 'resetVote' DIHAPUS KARENA BERGANTUNG PADA 'has_voted' ▼▼▼ ---
+    // public function resetVote(User $student): RedirectResponse
+    // {
+    //     ...
+    // }
+    // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 }
