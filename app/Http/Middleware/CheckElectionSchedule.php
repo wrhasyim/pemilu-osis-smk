@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Setting;
+// --- ▼▼▼ UBAH/TAMBAHKAN USE STATEMENT ▼▼▼ ---
+use App\Models\ElectionPeriod; // Kita butuh model Periode
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Carbon\Carbon; // Kita butuh Carbon untuk perbandingan waktu
+use Carbon\Carbon;
+// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
 class CheckElectionSchedule
 {
@@ -17,32 +19,38 @@ class CheckElectionSchedule
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Ambil pengaturan jadwal dari database
-        // Saya asumsikan key-nya adalah 'election_start' dan 'election_end'
-        // berdasarkan file resources/views/admin/settings/edit.blade.php
-        $startTimeString = Setting::where('key', 'election_start')->value('value');
-        $endTimeString = Setting::where('key', 'election_end')->value('value');
+        // --- ▼▼▼ LOGIKA DIGANTI TOTAL ▼▼▼ ---
 
-        // Jika admin belum mengatur jadwal, tolak akses.
-        if (!$startTimeString || !$endTimeString) {
-            return redirect()->route('dashboard')->with('error', 'Jadwal pemilihan belum diatur oleh Admin.');
+        // 1. Cari periode pemilu yang sedang aktif
+        $activePeriod = ElectionPeriod::where('is_active', true)->first();
+
+        // 2. Jika tidak ada periode aktif, tolak akses
+        if (!$activePeriod) {
+            return redirect()->route('dashboard')->with('error', 'Saat ini tidak ada periode pemilihan yang aktif.');
         }
 
-        $startTime = Carbon::parse($startTimeString);
-        $endTime = Carbon::parse($endTimeString);
+        // 3. Ambil waktu mulai dan selesai dari periode aktif
+        $startTime = $activePeriod->start_datetime;
+        $endTime = $activePeriod->end_datetime;
         $now = Carbon::now();
 
-        // Cek jika pemilu belum dimulai
-        if ($now->isBefore($startTime)) {
-            return redirect()->route('dashboard')->with('error', 'Pemilihan belum dimulai. Pemilihan akan dibuka pada ' . $startTime->format('d M Y \p\u\k\u\l H:i'));
+        // 4. Jika waktu belum ada (seharusnya tidak mungkin jika validasi benar)
+        if (!$startTime || !$endTime) {
+            return redirect()->route('dashboard')->with('error', 'Jadwal pemilihan untuk periode ini belum lengkap.');
         }
 
-        // Cek jika pemilu sudah berakhir
+        // 5. Cek jika pemilu belum dimulai
+        if ($now->isBefore($startTime)) {
+            return redirect()->route('dashboard')->with('error', 'Pemilihan belum dimulai. Akan dibuka pada ' . $startTime->format('d M Y \p\u\k\u\l H:i'));
+        }
+
+        // 6. Cek jika pemilu sudah berakhir
         if ($now->isAfter($endTime)) {
             return redirect()->route('dashboard')->with('error', 'Pemilihan telah ditutup pada ' . $endTime->format('d M Y \p\u\k\u\l H:i'));
         }
 
-        // Jika waktu sesuai, izinkan user lanjut ke halaman voting
+        // 7. Jika waktu sesuai, izinkan user lanjut ke halaman voting
         return $next($request);
+        // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
     }
 }
