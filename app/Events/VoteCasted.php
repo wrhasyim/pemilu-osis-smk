@@ -10,9 +10,11 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-// Implement ShouldBroadcast agar event ini bisa dikirim ke Reverb
-class VoteCasted implements ShouldBroadcast
+// --- ▼▼▼ TAMBAHKAN 'ShouldQueue' DI SINI ▼▼▼ ---
+class VoteCasted implements ShouldBroadcast, ShouldQueue
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

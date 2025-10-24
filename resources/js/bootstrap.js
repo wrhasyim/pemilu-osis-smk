@@ -3,7 +3,7 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// --- ▼▼▼ AKTIFKAN (UNCOMMENT) BLOK DI BAWAH INI ▼▼▼ ---
+// --- ▼▼▼ BLOK INI HARUS AKTIF (UNCOMMENTED) ▼▼▼ ---
 
 import Echo from 'laravel-echo';
 

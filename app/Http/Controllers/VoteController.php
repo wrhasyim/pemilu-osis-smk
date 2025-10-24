@@ -8,7 +8,7 @@ use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+// --- ▼▼▼ PASTIKAN BARIS INI ADA ▼▼▼ ---
 use App\Events\VoteCasted; 
 // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
@@ -63,7 +63,7 @@ class VoteController extends Controller
 
             DB::commit();
 
-            // --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+            // --- ▼▼▼ PASTIKAN BARIS INI ADA ▼▼▼ ---
             // Tembakkan event ke Reverb SETELAH data sukses disimpan
             VoteCasted::dispatch($activePeriod);
             // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---

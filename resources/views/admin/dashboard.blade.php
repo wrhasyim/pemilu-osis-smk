@@ -6,7 +6,7 @@
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8">
             <div>
                 <h2 class="text-3xl font-bold text-gray-800">Dashboard Pemilu</h2>
-                {{-- Tambahkan indikator REALTIME --}}
+                {{-- Indikator REALTIME --}}
                 <p class="text-gray-600 mt-1 flex items-center space-x-2">
                     <span class="relative flex h-3 w-3">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <h3 class="text-gray-500 text-sm font-semibold uppercase">Total Pemilih</h3>
-                    {{-- ▼▼▼ TAMBAHKAN ID ▼▼▼ --}}
+                    {{-- ID untuk update --}}
                     <p class="text-3xl font-bold text-gray-800" id="total-voters">{{ $totalVoters }}</p>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <h3 class="text-gray-500 text-sm font-semibold uppercase">Suara Masuk</h3>
-                    {{-- ▼▼▼ TAMBAHKAN ID ▼▼▼ --}}
+                    {{-- ID untuk update --}}
                     <p class="text-3xl font-bold text-gray-800" id="votes-casted">{{ $votesCasted }}</p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 </div>
                 <div>
                     <h3 class="text-gray-500 text-sm font-semibold uppercase">Partisipasi</h3>
-                    {{-- ▼▼▼ TAMBAHKAN ID ▼▼▼ --}}
+                    {{-- ID untuk update --}}
                     <p class="text-3xl font-bold text-gray-800" id="turnout-percentage">{{ $turnoutPercentage }}%</p>
                 </div>
             </div>
@@ -68,6 +68,7 @@
 @endsection
 
 @push('scripts')
+    {{-- Import Chart.js dan plugin datalabels --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
@@ -88,9 +89,8 @@
             const backgroundColors = chartData.map((_, i) => modernColors[i % modernColors.length]);
             const borderColors = backgroundColors.map(color => color.replace('0.7', '1'));
 
-            // --- ▼▼▼ SIMPAN CHART KE VARIABEL GLOBAL `voteChart` ▼▼▼ ---
+            // --- Simpan chart ke variabel global agar bisa di-update ---
             window.voteChart = new Chart(ctx, {
-            // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
                 type: 'bar',
                 data: {
                     labels: chartLabels,
@@ -108,7 +108,6 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
-                    // ... (options lainnya sama seperti sebelumnya) ...
                     scales: {
                         x: { beginAtZero: true, grid: { display: true, color: '#e5e7eb' }, ticks: { stepSize: 1, font: { size: 12, family: 'Figtree, sans-serif' }, color: '#6b7280' } },
                         y: { grid: { display: false }, ticks: { font: { size: 12, family: 'Figtree, sans-serif' }, color: '#374151' } }
@@ -116,12 +115,12 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: { backgroundColor: 'rgba(17, 24, 39, 0.8)', titleFont: { size: 14, family: 'Figtree, sans-serif' }, bodyFont: { size: 12, family: 'Figtree, sans-serif' }, padding: 12, boxPadding: 4, callbacks: { label: function(context) { return ` ${context.dataset.label}: ${context.parsed.x} Suara`; } } },
-                        datalabELS: { anchor: 'end', align: 'end', color: '#4b5563', font: { weight: 'bold', size: 14 }, formatter: (value) => { return value > 0 ? value : ''; }, offset: 8 }
+                        datalabels: { anchor: 'end', align: 'end', color: '#4b5563', font: { weight: 'bold', size: 14 }, formatter: (value) => { return value > 0 ? value : ''; }, offset: 8 }
                     }
                 }
             });
 
-            // --- ▼▼▼ TAMBAHKAN BLOK LARAVEL ECHO DI SINI ▼▼▼ ---
+            // --- ▼▼▼ BLOK LARAVEL ECHO LISTENER ▼▼▼ ---
             
             // Cek jika ada periode aktif yang dikirim dari controller
             @if(isset($activePeriod))
