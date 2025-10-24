@@ -1,22 +1,23 @@
-@extends('layouts.admin')
+@extends('layouts.admin') {{-- WAJIB: Memanggil layout admin baru --}}
 
-@section('content')
-    {{-- Meta tag untuk refresh halaman setiap 30 detik --}}
-    <meta http-equiv="refresh" content="30">
+@section('content') {{-- WAJIB: Membungkus semua konten --}}
+    
+    {{-- Hapus meta refresh, kita akan pakai Reverb/Pusher nanti jika perlu --}}
+    {{-- <meta http-equiv="refresh" content="30"> --}}
 
+    {{-- Konten halaman dashboard --}}
     <div class="p-4 sm:p-6 lg:p-8">
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8">
             <div>
-                <h2 class="text-3xl font-bold text-gray-800">Dashboard Pemilu Real-time</h2>
-                <p class="text-gray-600 mt-1">Data diperbarui secara otomatis setiap 30 detik.</p>
+                <h2 class="text-3xl font-bold text-gray-800">Dashboard Pemilu</h2>
+                <p class="text-gray-600 mt-1">Ringkasan hasil pemilihan saat ini.</p>
             </div>
-            {{-- 🎨 Elemen Baru: Waktu terakhir diperbarui --}}
             <div class="text-sm text-gray-500 mt-2 sm:mt-0">
-                Terakhir diperbarui: <span id="last-updated" class="font-semibold"></span>
+                Terakhir diperbarui: <span id="last-updated" class="font-semibold">{{ now()->format('d M Y, H:i:s') }}</span>
             </div>
         </div>
 
-        {{-- 🎨 Grid Statistik yang Diperbarui dengan Ikon --}}
+        {{-- Grid Statistik --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             {{-- Total Pemilih --}}
             <div class="bg-white p-6 rounded-lg shadow-md flex items-center gap-6">
@@ -56,26 +57,23 @@
             </div>
         </div>
 
-        {{-- 🎨 Wadah Grafik yang Diperbarui --}}
+        {{-- Wadah Grafik --}}
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-bold text-gray-800 mb-4">Grafik Perolehan Suara</h3>
-            <div class="h-[450px]"> {{-- Sedikit lebih tinggi untuk ruang napas --}}
+            <div class="h-[450px]">
                 <canvas id="voteChart"></canvas>
             </div>
         </div>
     </div>
+@endsection {{-- WAJIB: Menutup section --}}
 
+@push('scripts') {{-- WAJIB: Membungkus script --}}
     {{-- Memanggil library Chart.js dan plugin datalabels dari CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
     {{-- Skrip untuk membuat grafik --}}
     <script>
-        // 🎨 Menampilkan waktu terakhir diperbarui
-        document.getElementById('last-updated').textContent = new Date().toLocaleTimeString('id-ID', {
-            hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-
         document.addEventListener('DOMContentLoaded', function () {
             // Daftarkan plugin datalabels secara global
             Chart.register(ChartDataLabels);
@@ -84,6 +82,7 @@
             const chartLabels = @json($chartLabels);
             const chartData = @json($chartData);
 
+            // Warna yang lebih modern dan konsisten
             const modernColors = [
                 'rgba(59, 130, 246, 0.7)',  // blue-500
                 'rgba(239, 68, 68, 0.7)',   // red-500
@@ -117,11 +116,18 @@
                         x: {
                             beginAtZero: true,
                             grid: { display: true, color: '#e5e7eb' },
-                            ticks: { stepSize: 1, font: { size: 12, family: 'Figtree, sans-serif' }, color: '#6b7280' }
+                            ticks: {
+                                stepSize: 1,
+                                font: { size: 12, family: 'Figtree, sans-serif' },
+                                color: '#6b7280'
+                            }
                         },
                         y: {
                             grid: { display: false },
-                            ticks: { font: { size: 12, family: 'Figtree, sans-serif' }, color: '#374151' }
+                            ticks: {
+                                font: { size: 12, family: 'Figtree, sans-serif' },
+                                color: '#374151'
+                            }
                         }
                     },
                     plugins: {
@@ -138,11 +144,10 @@
                                 }
                             }
                         },
-                        // 🎨 Konfigurasi Baru: Menampilkan label data di grafik
                         datalabels: {
                             anchor: 'end',
                             align: 'end',
-                            color: '#4b5563', // text-gray-600
+                            color: '#4b5563',
                             font: {
                                 weight: 'bold',
                                 size: 14
@@ -150,11 +155,11 @@
                             formatter: (value) => {
                                 return value > 0 ? value : '';
                             },
-                            offset: 8 // Jarak label dari ujung bar
+                            offset: 8
                         }
                     }
                 }
             });
         });
     </script>
-@endsection
+@endpush {{-- WAJIB: Menutup push --}}

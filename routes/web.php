@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CandidateController;
+// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+use App\Http\Controllers\Admin\ElectionPeriodController;
+// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 use App\Http\Controllers\Admin\StudentImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\StudentViewController;
-// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // Halaman utama
@@ -29,14 +31,18 @@ Route::middleware(['auth', 'isAdmin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/students', [StudentViewController::class, 'index'])->name('students.index');
 
-    // --- ▼▼▼ RUTE RESET VOTE DIHAPUS DARI SINI ▼▼▼ ---
-    // Route::post('/students/{student}/reset-vote', [StudentViewController::class, 'resetVote'])->name('students.reset-vote');
-    // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
-
     // Rute untuk CRUD Kandidat
     Route::resource('candidates', CandidateController::class);
+
+    // --- ▼▼▼ TAMBAHKAN/MODIFIKASI BLOK INI ▼▼▼ ---
+    // Rute untuk CRUD Periode Pemilu
+    Route::resource('periods', ElectionPeriodController::class);
+    // Rute khusus untuk mengaktifkan periode
+    Route::post('periods/{period}/activate', [ElectionPeriodController::class, 'activate'])->name('periods.activate');
+    // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
+
     Route::get('students/import/sample', [StudentImportController::class, 'downloadSample'])->name('students.import.sample');
-    // Rute untuk Pengaturan
+    // Rute untuk Pengaturan (Akan kita hapus/ganti nanti)
     Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'edit'])->name('settings.edit');
     Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
     // Rute untuk impor siswa
