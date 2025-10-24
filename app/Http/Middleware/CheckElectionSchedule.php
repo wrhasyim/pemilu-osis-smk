@@ -2,13 +2,11 @@
 
 namespace App\Http\Middleware;
 
-// --- ▼▼▼ UBAH/TAMBAHKAN USE STATEMENT ▼▼▼ ---
-use App\Models\ElectionPeriod; // Kita butuh model Periode
+use App\Models\ElectionPeriod;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Carbon\Carbon;
-// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
 class CheckElectionSchedule
 {
@@ -19,14 +17,15 @@ class CheckElectionSchedule
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // --- ▼▼▼ LOGIKA DIGANTI TOTAL ▼▼▼ ---
-
         // 1. Cari periode pemilu yang sedang aktif
         $activePeriod = ElectionPeriod::where('is_active', true)->first();
 
         // 2. Jika tidak ada periode aktif, tolak akses
         if (!$activePeriod) {
-            return redirect()->route('dashboard')->with('error', 'Saat ini tidak ada periode pemilihan yang aktif.');
+            // --- ▼▼▼ PERUBAHAN REDIRECT ▼▼▼ ---
+            // Arahkan ke halaman utama jika tidak ada periode aktif
+            return redirect('/')->with('error', 'Saat ini tidak ada periode pemilihan yang aktif.');
+            // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
         }
 
         // 3. Ambil waktu mulai dan selesai dari periode aktif
@@ -34,23 +33,31 @@ class CheckElectionSchedule
         $endTime = $activePeriod->end_datetime;
         $now = Carbon::now();
 
-        // 4. Jika waktu belum ada (seharusnya tidak mungkin jika validasi benar)
+        // 4. Jika waktu belum ada
         if (!$startTime || !$endTime) {
-            return redirect()->route('dashboard')->with('error', 'Jadwal pemilihan untuk periode ini belum lengkap.');
+            // --- ▼▼▼ PERUBAHAN REDIRECT ▼▼▼ ---
+            // Arahkan ke halaman utama jika jadwal tidak lengkap
+            return redirect('/')->with('error', 'Jadwal pemilihan untuk periode ini belum lengkap.');
+             // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
         }
 
         // 5. Cek jika pemilu belum dimulai
         if ($now->isBefore($startTime)) {
-            return redirect()->route('dashboard')->with('error', 'Pemilihan belum dimulai. Akan dibuka pada ' . $startTime->format('d M Y \p\u\k\u\l H:i'));
+            // --- ▼▼▼ PERUBAHAN REDIRECT ▼▼▼ ---
+            // Arahkan ke halaman utama jika belum mulai
+            return redirect('/')->with('error', 'Pemilihan belum dimulai. Akan dibuka pada ' . $startTime->format('d M Y \p\u\k\u\l H:i'));
+            // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
         }
 
         // 6. Cek jika pemilu sudah berakhir
         if ($now->isAfter($endTime)) {
-            return redirect()->route('dashboard')->with('error', 'Pemilihan telah ditutup pada ' . $endTime->format('d M Y \p\u\k\u\l H:i'));
+            // --- ▼▼▼ PERUBAHAN REDIRECT ▼▼▼ ---
+            // Arahkan ke halaman utama jika sudah selesai
+            return redirect('/')->with('error', 'Pemilihan telah ditutup pada ' . $endTime->format('d M Y \p\u\k\u\l H:i'));
+            // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
         }
 
         // 7. Jika waktu sesuai, izinkan user lanjut ke halaman voting
         return $next($request);
-        // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
     }
 }
