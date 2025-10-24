@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
+// --- ▼▼▼ TAMBAHKAN 2 BARIS INI ▼▼▼ ---
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+// --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 
 class Candidate extends Model
 {
@@ -16,12 +18,9 @@ class Candidate extends Model
         'vision',
         'mission',
         'photo',
-        // --- ▼▼▼ TAMBAHKAN BARIS INI ▼▼▼ ---
         'election_period_id',
-        // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
     ];
 
-    // --- ▼▼▼ TAMBAHKAN RELASI BARU INI ▼▼▼ ---
     /**
      * Relasi ke ElectionPeriod
      * Menandakan kandidat ini milik periode pemilu mana.
@@ -29,6 +28,16 @@ class Candidate extends Model
     public function electionPeriod(): BelongsTo
     {
         return $this->belongsTo(ElectionPeriod::class);
+    }
+
+    // --- ▼▼▼ TAMBAHKAN RELASI BARU INI ▼▼▼ ---
+    /**
+     * Relasi ke Votes
+     * Mendapatkan semua suara yang diterima oleh kandidat ini.
+     */
+    public function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class);
     }
     // --- ▲▲▲ PERUBAHAN SELESAI ▲▲▲ ---
 }
